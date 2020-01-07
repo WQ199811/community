@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
@@ -29,7 +31,9 @@ public class AuthorizeController {
     @GetMapping("callback")
     public String callback(@RequestParam(name="code") String code,
                            @RequestParam(name="state") String state,
-                           HttpSession session){
+                           HttpServletResponse httpResponse,
+                           HttpSession session
+                           ){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
@@ -43,11 +47,13 @@ public class AuthorizeController {
             User user = new User();
             user.setAccountId(String.valueOf(userDTO.getId()));
             user.setName(userDTO.getName());
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            session.setAttribute("user",userDTO);
+            httpResponse.addCookie(new Cookie("token",token));
+            //session.setAttribute("user",user);
             return "redirect:/";
         }else{
             return "index";
