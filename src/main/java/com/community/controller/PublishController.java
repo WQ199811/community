@@ -33,9 +33,24 @@ public class PublishController {
                             HttpServletRequest request,
                             Model model
     ) {
+        model.addAttribute("title",title);
+        model.addAttribute("description",description);
+        model.addAttribute("tag",tag);
+        if (title == null || title == "") {
+            model.addAttribute("error", "标题不能为空");
+            return "publish";
+        }
+        if (description == null || description == "") {
+            model.addAttribute("error", "问题补充不能为空");
+            return "publish";
+        }
+        if (tag == null || tag == "") {
+            model.addAttribute("error", "标签不能为空");
+            return "publish";
+        }
         Cookie[] cookies = request.getCookies();
         User user = null;
-        if(cookies!=null) {
+        if(cookies!=null&&cookies.length != 0) {
             for (Cookie cookie : cookies) {
                 if (cookie != null) {
                     if (cookie.getName().equals("token")) {
@@ -62,6 +77,7 @@ public class PublishController {
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
         questionMapper.create(question);
-        return "redirect:/";
+        model.addAttribute("success","1");
+        return "publish";
     }
 }
