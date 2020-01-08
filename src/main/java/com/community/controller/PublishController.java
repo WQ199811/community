@@ -22,7 +22,23 @@ public class PublishController {
     private UserMapper userMapper;
 
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        User user = null;
+        if(cookies!=null&&cookies.length != 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie != null) {
+                    if (cookie.getName().equals("token")) {
+                        String token = cookie.getValue();
+                        user = userMapper.findByToken(token);
+                        if (user != null) {
+                            request.getSession().setAttribute("user", user);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
         return "publish";
     }
 
@@ -74,8 +90,8 @@ public class PublishController {
         question.setTag(tag);
         question.setDescription(description);
         question.setCreator(user.getId());
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
+        question.setGmt_create(System.currentTimeMillis());
+        question.setGmt_modified(question.getGmt_create());
         questionMapper.create(question);
         model.addAttribute("success","1");
         return "publish";

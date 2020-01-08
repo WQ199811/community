@@ -45,13 +45,13 @@ public class AuthorizeController {
         System.out.println(userDTO.getName());
         if(userDTO != null && userDTO.getId() != null){
             User user = new User();
-            user.setAccountId(String.valueOf(userDTO.getId()));
+            user.setAccount_id(String.valueOf(userDTO.getId()));
             user.setName(userDTO.getName());
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            user.setAvatarUrl(userDTO.getAvatarUrl());
+            user.setGmt_create(System.currentTimeMillis());
+            user.setGmt_modified(user.getGmt_create());
+            user.setAvatar_url(userDTO.getAvatarUrl());
             userMapper.insert(user);
             httpResponse.addCookie(new Cookie("token",token));
             //session.setAttribute("user",user);
