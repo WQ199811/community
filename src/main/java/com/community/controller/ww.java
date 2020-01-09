@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ww {
     @GetMapping("/ww")
     public String ww(){
-        return "redirect:resources/templates/index.html";
+        System.out.println(
+                "---------------------"
+        );
+        return "redirect:community/templates/html.html";
     }
 }

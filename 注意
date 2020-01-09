@@ -1,6 +1,8 @@
 bug解决:开始浏览器没关cookie没有删除,我重启项目导致session删除,当我重新访问/publish页面由于session消失,数据没有导致bug
+bug提问:重定向找不到本地html文件报404,但能请求控制器里的地址
 1.springboot中使用mybatis映射时不支持模糊匹配,所以要数据库属性名与对象属性完全一致
     可以开启设置mybatis.configuration.map-underscore-to-camel-case=true
 2.BeanUtils.copyProperties();次方法不能完成给继承来的对象属性赋值
 3.数组对象可能为空判断非空条件为:数组对象!=null$$数组对象.length!=0
 4.thymeleaf使用对象属性要注意其权限使用getset方法获取其值
+5.pagehelper合并对象化无法正常使用;以目前状况来看pagehelper是依赖mybatis的

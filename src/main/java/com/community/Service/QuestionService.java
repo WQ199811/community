@@ -25,6 +25,16 @@ public class QuestionService {
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
+            /**questionDTO.setId(question.getId());
+            questionDTO.setTitle(question.getTitle());
+            questionDTO.setTag(question.getTag());
+            questionDTO.setCreator(question.getCreator());
+            questionDTO.setComment_count(question.getComment_count());
+            questionDTO.setDescription(question.getDescription());
+            questionDTO.setGmt_create(question.getGmt_create());
+            questionDTO.setGmt_modified(question.getGmt_modified());
+            questionDTO.setLike_count(question.getLike_count());
+            questionDTO.setView_count(question.getView_count());**/
             questionDTO.setUser(user);
             questionDTOs.add(questionDTO);
         }
