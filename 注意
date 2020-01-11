@@ -5,4 +5,10 @@ bug提问:重定向找不到本地html文件报404,但能请求控制器里的�
 2.BeanUtils.copyProperties();次方法不能完成给继承来的对象属性赋值
 3.数组对象可能为空判断非空条件为:数组对象!=null$$数组对象.length!=0
 4.thymeleaf使用对象属性要注意其权限使用getset方法获取其值
-5.pagehelper合并对象化无法正常使用;以目前状况来看pagehelper是依赖mybatis的
+5.pagehelper合并对象化无法正常使用;pagehelper是mybatis的插件以目前状况来看pagehelper是依赖mybatis的和mybatis
+    的方法没关系的不能用,这里合并完对象能分页但无法用其他方法
+6."questions".equals(action);以免发生空指针
+7.css,jqury注意目录层级,引入js,jqury路径为项目名/...,以免在请求多层目录结构时找不到文件:springboot默认视图解析器路径
+8.拦截器会不走默认路径找不到静态资源,要删除@EnableWebMvc
+9.@GetMapping中的地址必须和搜索栏中一样
+

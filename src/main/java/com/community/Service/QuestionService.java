@@ -25,19 +25,41 @@ public class QuestionService {
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
-            /**questionDTO.setId(question.getId());
-            questionDTO.setTitle(question.getTitle());
-            questionDTO.setTag(question.getTag());
-            questionDTO.setCreator(question.getCreator());
-            questionDTO.setComment_count(question.getComment_count());
-            questionDTO.setDescription(question.getDescription());
-            questionDTO.setGmt_create(question.getGmt_create());
-            questionDTO.setGmt_modified(question.getGmt_modified());
-            questionDTO.setLike_count(question.getLike_count());
-            questionDTO.setView_count(question.getView_count());**/
             questionDTO.setUser(user);
             questionDTOs.add(questionDTO);
         }
       return questionDTOs;
+    }
+    public List<QuestionDTO> questionsByCreator(Integer creator) {
+        List<Question> questions = questionMapper.questionsByCreator(creator);
+        List<QuestionDTO> questionDTOs = new ArrayList<>();
+        for (Question question : questions) {
+            User user = userMapper.findById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            questionDTOs.add(questionDTO);
+        }
+        return questionDTOs;
+    }
+    public QuestionDTO questionsById(Integer id) {
+        Question question = questionMapper.questionsById(id);
+        User user = userMapper.findById(question.getCreator());
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
+
+
+    public void createrOrUpdate(Question question) {
+        if (question.getId()==null){
+            question.setGmt_create(System.currentTimeMillis());
+            question.setGmt_modified(question.getGmt_create());
+            questionMapper.create(question);
+        }else{
+            question.setGmt_modified(System.currentTimeMillis());
+            questionMapper.questionsUpdateById(question);
+        }
     }
 }

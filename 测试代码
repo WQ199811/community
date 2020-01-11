@@ -1,0 +1,49 @@
+  /**questionDTO.setId(question.getId());
+            questionDTO.setTitle(question.getTitle());
+            questionDTO.setTag(question.getTag());
+            questionDTO.setCreator(question.getCreator());
+            questionDTO.setComment_count(question.getComment_count());
+            questionDTO.setDescription(question.getDescription());
+            questionDTO.setGmt_create(question.getGmt_create());
+            questionDTO.setGmt_modified(question.getGmt_modified());
+            questionDTO.setLike_count(question.getLike_count());
+            questionDTO.setView_count(question.getView_count());**/
+
+
+PageHelper.startPage(2, 2);
+            List<Question> qu = questionService.questionsAll1();
+            PageInfo<Question> q = new PageInfo<Question>(qu, 6);
+            System.out.println("总记录"+q.getTotal());
+            System.out.println("当前页码"+q.getPageNum());
+            int[] navigatepageNums = q.getNavigatepageNums();
+            for (int navigatepageNum : navigatepageNums) {
+                System.out.println("格式"+navigatepageNum);
+            }
+
+            PageHelper.startPage(2, 2);
+            List<String> qu1 = questionService.questionsAll2();
+            PageInfo<String> q1 = new PageInfo<String>(qu1, 6);
+            System.out.println("总记录"+q1.getTotal());
+            System.out.println("当前页码"+q1.getPageNum());
+            int[] navigatepageNums1 = q1.getNavigatepageNums();
+            for (int navigatepageNum : navigatepageNums1) {
+                System.out.println("格式"+navigatepageNum);
+            }
+
+
+public List<Question> questionsAll1(){
+        List<Question> questions = questionMapper.questionsAll();
+        List<Question> list = new ArrayList<>();
+        for (Question question : questions) {
+            list.add(question);
+        }
+        return list;
+    }
+    public List<String> questionsAll2(){
+        List<Question> questions = questionMapper.questionsAll();
+        List<String> list = new ArrayList<>();
+        for (int i=0;i<24;i++){
+            list.add(i+"");
+        }
+        return list;
+    }

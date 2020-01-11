@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>编码世界</title>
+    <title th:text="${#request.getAttribute('sectionName')}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
@@ -11,10 +11,10 @@
 </head>
 <body>
 <div th:insert="~{navigation.html::nav}"></div>
-<div class="container-fluid main">
+<div class="container-fluid main profile">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 发现</h2>
+            <h2><span th:text="${#request.getAttribute('sectionName')}"></span></h2>
             <hr>
             <div class="media" th:each="question:${#request.getAttribute('questions')}">
                 <div class="media-left">
@@ -32,22 +32,22 @@
                         <span th:text="${question.getLike_count()}"></span>个喜欢
                         <span th:text="${#dates.format(question.getGmt_create(),'yyyy-MM-dd HH:mm')}"></span>
                     </span>
-
                 </div>
             </div>
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a  th:href="@{/}" aria-label="Previous">
+                        <a th:href="@{/profile/{section}(section=${#request.getAttribute('section')})}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
-                    <li th:each="nums:${#request.getAttribute('navigatepageNums')}" th:class="${#request.getAttribute('pageNum')==nums}?'active':''">
-                        <a th:if="${nums<=(#request.getAttribute('pages'))}" th:href="@{/(pn=${nums})}"
+                    <li th:each="nums:${#request.getAttribute('navigatepageNums')}"
+                        th:class="${#request.getAttribute('pageNum')==nums}?'active':''">
+                        <a th:if="${nums<=(#request.getAttribute('pages'))}" th:href="@{/profile/{section}(pn=${nums},section=${#request.getAttribute('section')})}"
                            th:text="${nums}">
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/(pn=${#request.getAttribute('pages')})}" aria-label="Next">
+                        <a th:href="@{/profile/{section}(pn=${#request.getAttribute('pages')},section=${#request.getAttribute('section')})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -55,7 +55,14 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon" aria-hidden="true"></span>热门问题</h2>
+            <div class="list-group section">
+                <a href="/profile/questions" class="list-group-item" th:class="${#request.getAttribute('section')=='questions'}?'active list-group-item':'list-group-item'">我的问题</a>
+                <a href="/profile/repies" class="list-group-item" th:class="${#request.getAttribute('section')=='repies'}?'active list-group-item':'list-group-item'">最新回复
+                    <span class="badge">14</span>
+                </a>
+                <a href="#" class="list-group-item" th:class="${#request.getAttribute('section')=='questions'}?'active list-group-item':'list-group-item'">Porta ac consectetur ac</a>
+                <a href="#" class="list-group-item" th:class="${#request.getAttribute('section')=='questions'}?'active list-group-item':'list-group-item'">Vestibulum at eros</a>
+            </div>
         </div>
 
     </div>
